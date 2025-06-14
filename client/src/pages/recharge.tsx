@@ -31,7 +31,7 @@ export default function Recharge() {
 
   // Fetch plans for selected operator
   const { data: plans = [], isLoading: loadingPlans } = useQuery<RechargePlan[]>({
-    queryKey: ['/api/plans/operator', selectedOperator?.id],
+    queryKey: [`/api/plans/operator/${selectedOperator?.id}`],
     enabled: !!selectedOperator?.id,
   });
 
