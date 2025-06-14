@@ -1,12 +1,10 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertPaymentSchema } from "@shared/schema";
 import { z } from "zod";
 
-const UPI_ID = "rekhadevi573710.rzp@icici";
+const UPI_ID = process.env.UPI_ID!;
 
 export async function registerRoutes(app: Express): Promise<Server> {
   
