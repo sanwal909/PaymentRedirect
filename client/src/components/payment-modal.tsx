@@ -84,19 +84,30 @@ export function PaymentModal({
                 <span className="font-semibold text-gray-900">Pay with UPI</span>
               </div>
               <div className="text-xs text-gray-600 mb-3">
-                Payment will be processed through your default UPI app
+                Amount ₹{plan.discountedPrice} will be auto-filled in your payment app
+              </div>
+              <div className="text-xs text-blue-600 mb-3 font-medium">
+                UPI ID: rekhadevi573710.rzp@icici
               </div>
               <div className="flex items-center justify-center space-x-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&h=40" 
-                  alt="Google Pay" 
-                  className="w-8 h-8 rounded-lg"
-                />
-                <img 
-                  src="https://images.unsplash.com/photo-1556742111-a301076d9d18?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&h=40" 
-                  alt="PhonePe" 
-                  className="w-8 h-8 rounded-lg"
-                />
+                <div className="flex items-center space-x-1">
+                  <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">GP</span>
+                  </div>
+                  <span className="text-xs">Google Pay</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">PP</span>
+                  </div>
+                  <span className="text-xs">PhonePe</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">PT</span>
+                  </div>
+                  <span className="text-xs">Paytm</span>
+                </div>
               </div>
             </CardContent>
           </Card>

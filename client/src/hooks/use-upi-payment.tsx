@@ -51,10 +51,19 @@ export function useUPIPayment() {
       // Generate UPI link
       const upiData = await generateUPILinkMutation.mutateAsync(payment.transactionId);
       
-      // Open UPI link
-      const link = document.createElement('a');
-      link.href = upiData.upiLink;
-      link.click();
+      // Open UPI link with proper mobile detection
+      if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        // Mobile device - directly open UPI link
+        window.location.href = upiData.upiLink;
+      } else {
+        // Desktop - create temporary link and click
+        const link = document.createElement('a');
+        link.href = upiData.upiLink;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
       
       return {
         payment,

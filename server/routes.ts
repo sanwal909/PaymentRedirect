@@ -166,8 +166,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Operator not found" });
       }
 
-      const transactionNote = `${operator.name.toUpperCase()} Recharge - ${plan.type} Plan`;
-      const upiLink = `upi://pay?pa=${UPI_ID}&pn=Mobile Recharge&am=${payment.amount}&cu=INR&tn=${encodeURIComponent(transactionNote)}&tr=${payment.transactionId}`;
+      const transactionNote = `${operator.name.toUpperCase()} Recharge - ${plan.type} Plan - ₹${payment.amount}`;
+      const upiLink = `upi://pay?pa=${UPI_ID}&pn=Mobile%20Recharge&am=${payment.amount}.00&cu=INR&tn=${encodeURIComponent(transactionNote)}&tr=${payment.transactionId}`;
       
       res.json({ upiLink, amount: payment.amount, operator: operator.name });
     } catch (error) {

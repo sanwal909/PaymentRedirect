@@ -83,35 +83,35 @@ export class MemStorage implements IStorage {
   }
 
   private initializePlans() {
-    // Current 2025 plans with real market rates (₹200+ only)
+    // Current 2025 plans with varied pricing for different operators (₹200+ only)
     const planData = [
-      // Jio Plans
-      { operatorId: 1, originalPrice: 999, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
-      { operatorId: 1, originalPrice: 666, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
-      { operatorId: 1, originalPrice: 395, data: '6GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
-      { operatorId: 1, originalPrice: 2999, data: '2.5GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
-      { operatorId: 1, originalPrice: 719, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Special' },
+      // Jio Plans - Premium pricing as market leader
+      { operatorId: 1, originalPrice: 1199, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
+      { operatorId: 1, originalPrice: 799, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
+      { operatorId: 1, originalPrice: 449, data: '8GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
+      { operatorId: 1, originalPrice: 3599, data: '2.5GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
+      { operatorId: 1, originalPrice: 899, data: '2GB/day', validity: '56 days', calls: 'Unlimited', type: 'Special' },
 
-      // Airtel Plans
-      { operatorId: 2, originalPrice: 1199, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
-      { operatorId: 2, originalPrice: 719, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
-      { operatorId: 2, originalPrice: 449, data: '3GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
-      { operatorId: 2, originalPrice: 3359, data: '2.5GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
-      { operatorId: 2, originalPrice: 839, data: '2GB/day', validity: '56 days', calls: 'Unlimited', type: 'Special' },
+      // Airtel Plans - Premium competitor pricing
+      { operatorId: 2, originalPrice: 1299, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
+      { operatorId: 2, originalPrice: 849, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
+      { operatorId: 2, originalPrice: 499, data: '6GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
+      { operatorId: 2, originalPrice: 3799, data: '2.5GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
+      { operatorId: 2, originalPrice: 999, data: '2GB/day', validity: '56 days', calls: 'Unlimited', type: 'Special' },
 
-      // Vi Plans
-      { operatorId: 3, originalPrice: 999, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
-      { operatorId: 3, originalPrice: 666, data: '1GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
-      { operatorId: 3, originalPrice: 379, data: '6GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
-      { operatorId: 3, originalPrice: 3499, data: '2GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
-      { operatorId: 3, originalPrice: 699, data: '1.5GB/day', validity: '70 days', calls: 'Unlimited', type: 'Special' },
+      // Vi Plans - Competitive mid-range pricing
+      { operatorId: 3, originalPrice: 1099, data: '1.5GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
+      { operatorId: 3, originalPrice: 749, data: '1GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
+      { operatorId: 3, originalPrice: 399, data: '6GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
+      { operatorId: 3, originalPrice: 3299, data: '2GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
+      { operatorId: 3, originalPrice: 799, data: '1.5GB/day', validity: '70 days', calls: 'Unlimited', type: 'Special' },
 
-      // BSNL Plans
-      { operatorId: 4, originalPrice: 797, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
-      { operatorId: 4, originalPrice: 599, data: '1GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
-      { operatorId: 4, originalPrice: 349, data: '3GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
-      { operatorId: 4, originalPrice: 2399, data: '2GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
-      { operatorId: 4, originalPrice: 697, data: '1.5GB/day', validity: '74 days', calls: 'Unlimited', type: 'Special' },
+      // BSNL Plans - Budget-friendly government operator
+      { operatorId: 4, originalPrice: 899, data: '2GB/day', validity: '84 days', calls: 'Unlimited', type: 'Popular' },
+      { operatorId: 4, originalPrice: 649, data: '1GB/day', validity: '84 days', calls: 'Unlimited', type: 'Value' },
+      { operatorId: 4, originalPrice: 349, data: '5GB total', validity: '28 days', calls: 'Unlimited', type: 'Basic' },
+      { operatorId: 4, originalPrice: 2699, data: '2GB/day', validity: '365 days', calls: 'Unlimited', type: 'Annual' },
+      { operatorId: 4, originalPrice: 699, data: '1.5GB/day', validity: '74 days', calls: 'Unlimited', type: 'Special' },
     ];
 
     planData.forEach(plan => {
