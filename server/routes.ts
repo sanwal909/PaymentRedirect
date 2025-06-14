@@ -45,13 +45,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/plans/operator/:operatorId", async (req, res) => {
     try {
       const operatorId = parseInt(req.params.operatorId);
-      if (isNaN(operatorId)) {
+      if (isNaN(operatorId) || operatorId <= 0) {
         return res.status(400).json({ message: "Invalid operator ID" });
       }
       
       const plans = await storage.getPlansByOperator(operatorId);
       res.json(plans);
     } catch (error) {
+      console.error("Error fetching plans:", error);
       res.status(500).json({ message: "Failed to fetch plans" });
     }
   });

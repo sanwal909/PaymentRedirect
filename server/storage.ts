@@ -56,26 +56,26 @@ export class MemStorage implements IStorage {
       {
         name: "Jio",
         code: "jio",
-        brandColor: "#FF6B35",
-        logoUrl: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=60"
+        brandColor: "#0066CC",
+        logoUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA4MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzAwNjZDQyIvPgo8dGV4dCB4PSI0MCIgeT0iMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5KaW88L3RleHQ+Cjwvc3ZnPg=="
       },
       {
         name: "Airtel",
         code: "airtel", 
         brandColor: "#E60012",
-        logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=60"
+        logoUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA4MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iI0U2MDAxMiIvPgo8dGV4dCB4PSI0MCIgeT0iMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5BaXJ0ZWw8L3RleHQ+Cjwvc3ZnPg=="
       },
       {
         name: "Vi",
         code: "vi",
-        brandColor: "#000000", 
-        logoUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=60"
+        brandColor: "#9D4EDD", 
+        logoUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA4MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzlENEVERCIvPgo8dGV4dCB4PSI0MCIgeT0iMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5WaTwvdGV4dD4KPC9zdmc+"
       },
       {
         name: "BSNL",
         code: "bsnl",
-        brandColor: "#FFD700",
-        logoUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=60"
+        brandColor: "#FF8500",
+        logoUrl: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA4MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iI0ZGODUwMCIvPgo8dGV4dCB4PSI0MCIgeT0iMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CU05MPC90ZXh0Pgo8L3N2Zz4="
       }
     ];
 
@@ -139,7 +139,11 @@ export class MemStorage implements IStorage {
 
   async createOperator(insertOperator: InsertOperator): Promise<Operator> {
     const id = this.currentOperatorId++;
-    const operator: Operator = { ...insertOperator, id };
+    const operator: Operator = { 
+      ...insertOperator, 
+      id,
+      logoUrl: insertOperator.logoUrl || null
+    };
     this.operators.set(id, operator);
     return operator;
   }
@@ -161,7 +165,11 @@ export class MemStorage implements IStorage {
 
   async createPlan(insertPlan: InsertRechargePlan): Promise<RechargePlan> {
     const id = this.currentPlanId++;
-    const plan: RechargePlan = { ...insertPlan, id };
+    const plan: RechargePlan = { 
+      ...insertPlan, 
+      id,
+      isActive: insertPlan.isActive ?? true
+    };
     this.rechargePlans.set(id, plan);
     return plan;
   }
@@ -182,6 +190,7 @@ export class MemStorage implements IStorage {
     const payment: Payment = {
       ...insertPayment,
       id,
+      mobileNumber: insertPayment.mobileNumber || null,
       createdAt: new Date(),
       completedAt: null
     };
