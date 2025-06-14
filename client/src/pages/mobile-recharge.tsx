@@ -17,6 +17,7 @@ import {
   Clock
 } from 'lucide-react';
 import { CountdownTimer } from '@/components/countdown-timer';
+import { UPIAppSelector } from '@/components/upi-app-selector';
 import { useUPIPayment } from '@/hooks/use-upi-payment';
 import { useToast } from '@/hooks/use-toast';
 import type { Operator, RechargePlan } from '@/types/recharge';
@@ -27,6 +28,7 @@ export default function MobileRecharge() {
   const [selectedOperator, setSelectedOperator] = useState<Operator | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<RechargePlan | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showUPISelector, setShowUPISelector] = useState(false);
 
   const { toast } = useToast();
   const { processPayment, updatePaymentStatus } = useUPIPayment();
@@ -64,10 +66,16 @@ export default function MobileRecharge() {
     setStep(4);
   };
 
-  const handlePayment = async () => {
+  const handlePayment = () => {
+    setShowUPISelector(true);
+  };
+
+  const handleUPIAppSelect = async (app: any) => {
     if (!selectedPlan) return;
 
+    setShowUPISelector(false);
     setIsProcessing(true);
+
     try {
       const result = await processPayment({
         planId: selectedPlan.id,
@@ -75,10 +83,42 @@ export default function MobileRecharge() {
         mobileNumber,
       });
 
-      if (result.success) {
+      if (result.success && result.upiData) {
+        // Construct app-specific UPI link
+        const upiParams = result.upiData.upiLink.split('?')[1];
+        let appLink = '';
+
+        switch (app.id) {
+          case 'gpay':
+            appLink = `gpay://upi/pay?${upiParams}`;
+            break;
+          case 'phonepe':
+            appLink = `phonepe://pay?${upiParams}`;
+            break;
+          case 'paytm':
+            appLink = `paytmmp://pay?${upiParams}`;
+            break;
+          case 'bhim':
+            appLink = `bhim://pay?${upiParams}`;
+            break;
+          case 'amazonpay':
+            appLink = `amazonpay://pay?${upiParams}`;
+            break;
+          default:
+            appLink = result.upiData.upiLink;
+        }
+
+        // Try to open the specific app
+        try {
+          window.location.href = appLink;
+        } catch {
+          // Fallback to standard UPI link
+          window.location.href = result.upiData.upiLink;
+        }
+
         toast({
-          title: "Payment Initiated",
-          description: "Complete payment in your UPI app",
+          title: "Redirecting to Payment App",
+          description: `Opening ${app.name} for payment`,
         });
 
         // Simulate payment completion
@@ -108,7 +148,7 @@ export default function MobileRecharge() {
                 description: "Please try again",
                 variant: "destructive",
               });
-              setStep(3); // Go back to plan selection
+              setStep(3);
             }
           } catch (error) {
             toast({
@@ -406,7 +446,7 @@ export default function MobileRecharge() {
                 ) : (
                   <>
                     <Shield className="w-5 h-5 mr-2" />
-                    Pay Securely ₹{selectedPlan.discountedPrice}
+                    Choose Payment App & Pay ₹{selectedPlan.discountedPrice}
                   </>
                 )}
               </Button>
@@ -441,6 +481,14 @@ export default function MobileRecharge() {
             <div className="text-xs text-gray-600">Support</div>
           </div>
         </div>
+
+        {/* UPI App Selector Modal */}
+        <UPIAppSelector
+          isOpen={showUPISelector}
+          onClose={() => setShowUPISelector(false)}
+          onAppSelect={handleUPIAppSelect}
+          amount={selectedPlan?.discountedPrice || 0}
+        />
       </div>
     </div>
   );

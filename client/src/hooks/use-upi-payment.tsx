@@ -51,18 +51,50 @@ export function useUPIPayment() {
       // Generate UPI link
       const upiData = await generateUPILinkMutation.mutateAsync(payment.transactionId);
       
-      // Open UPI link with proper mobile detection
+      // Try to open specific UPI apps with fallback
+      const tryUPIApps = () => {
+        const upiLink = upiData.upiLink;
+        const apps = [
+          { name: 'Google Pay', scheme: `gpay://upi/pay?${upiLink.split('?')[1]}` },
+          { name: 'PhonePe', scheme: `phonepe://pay?${upiLink.split('?')[1]}` },
+          { name: 'Paytm', scheme: `paytmmp://pay?${upiLink.split('?')[1]}` },
+          { name: 'BHIM', scheme: `bhim://pay?${upiLink.split('?')[1]}` },
+          { name: 'Amazon Pay', scheme: `amazonpay://pay?${upiLink.split('?')[1]}` }
+        ];
+
+        // Try each app with timeout
+        let attempted = 0;
+        const tryNextApp = () => {
+          if (attempted < apps.length) {
+            const app = apps[attempted];
+            attempted++;
+            
+            // Create iframe to try opening the app
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = app.scheme;
+            document.body.appendChild(iframe);
+            
+            setTimeout(() => {
+              document.body.removeChild(iframe);
+              // If we're still here after 1 second, try next app
+              tryNextApp();
+            }, 1000);
+          } else {
+            // Fallback to standard UPI link
+            window.location.href = upiLink;
+          }
+        };
+
+        tryNextApp();
+      };
+
       if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        // Mobile device - directly open UPI link
-        window.location.href = upiData.upiLink;
+        // Mobile device - try specific apps first
+        tryUPIApps();
       } else {
-        // Desktop - create temporary link and click
-        const link = document.createElement('a');
-        link.href = upiData.upiLink;
-        link.target = '_blank';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Desktop - open UPI link directly
+        window.open(upiData.upiLink, '_blank');
       }
       
       return {
